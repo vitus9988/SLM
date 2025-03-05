@@ -16,6 +16,12 @@ ollama base
 |qwen2.5:0.5b-instruct-q4_K_S|21|
 |qwen2.5:3b-instruct-q4_K_M|5|
 
+llama.cpp base
+
+|Model|Tps|
+|---|---|
+|kanana-nano-2.1b-instruct-Q4_K_M|7|
+
 
 
 
