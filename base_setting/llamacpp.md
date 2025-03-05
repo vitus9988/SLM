@@ -3,14 +3,15 @@
 ### 1. cmake install
 
 (build-essential, openssl installed)
-
-1) https://cmake.org/download tar file download (wget link)
-2) tar -zxvf [cmake tar file]
-3) cd [cmake dir]
-4) ./bootstrap
+```bash
+https://cmake.org/download tar file download (wget link)
+tar -zxvf [cmake tar file]
+cd [cmake dir]
+./bootstrap
 (openssl not find error -> apt-get update / apt-get install libssl-dev)
-5) make
-6) make install
+make
+make install
+```
 
 ### 2. llama-cpp install
 
