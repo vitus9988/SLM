@@ -14,17 +14,17 @@ make install
 ```
 
 ### 2. llama-cpp install
-
-1) git clone https://github.com/ggml-org/llama.cpp
-2) cd llama.cpp
+```bash
+git clone https://github.com/ggml-org/llama.cpp
+cd llama.cpp
 [CPU env]
-3) cmake -B build
-4) cmake --build build --config Release
-5) pip3 install -r requirements.txt
-
+cmake -B build
+cmake --build build --config Release
+pip3 install -r requirements.txt
+```
 
 ### 3. model convert & quantize
-
+```bash
 1) huggingface model local download
 ex) huggingface-cli download [model name] --local-dir=[model save path]
 
@@ -38,3 +38,4 @@ cd llama.cpp/build/bin
 4) llama.cli run
 cd llama.cpp/build/bin
 ./llama-cli -m [model path] -p [prompt]
+```
