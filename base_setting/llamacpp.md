@@ -2,13 +2,13 @@
 
 ### 1. cmake install
 
-(build-essential, openssl installed)
+#build-essential, openssl installed
 ```bash
 https://cmake.org/download tar file download (wget link)
 tar -zxvf [cmake tar file]
 cd [cmake dir]
 ./bootstrap
-(openssl not find error -> apt-get update / apt-get install libssl-dev)
+#openssl not find error -> apt-get update / apt-get install libssl-dev
 make
 make install
 ```
@@ -26,7 +26,7 @@ pip3 install -r requirements.txt
 ### 3. model convert & quantize
 ```bash
 1) huggingface model local download
-ex) huggingface-cli download [model name] --local-dir=[model save path]
+huggingface-cli download [model name] --local-dir=[model save path]
 
 2) download model gguf convert
 python3 convert_hf_to_gguf.py [model save path] --outtype [convert type] ex)bf16  
