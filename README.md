@@ -21,6 +21,7 @@ llama.cpp base
 |Model|Tps|
 |---|---|
 |kanana-nano-2.1b-instruct-Q4_K_M|7|
+|gemma-3-1b-it-Q4_K_M|13|
 
 
 
