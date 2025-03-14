@@ -21,6 +21,8 @@ sudo docker build -t [image name:version] [Dockerfile path]
 
 ```bash
 sudo docker run -it -d --name [container name] [image name:version] /bin/bash
+or
+sudo docker run -it -d -p [host port:container port] --name [container name] [image name:version] /bin/bash
 sudo docker exec -it [container id] /bin/bash
 ```
 
