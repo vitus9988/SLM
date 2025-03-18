@@ -35,7 +35,12 @@ python3 convert_hf_to_gguf.py [model save path] --outtype [convert type] ex)bf16
 cd llama.cpp/build/bin
 ./llama-quantize [gguf model path] [quantize save path] [quantize type] ex)Q4_K_M
 
-4) llama.cli run
+4-1) llama.cli run
 cd llama.cpp/build/bin
 ./llama-cli -m [model path] -p [prompt]
+
+4-2) llama server run
+cd llama.cpp/build/bin
+./llama-server -m [model path] --port [port]
+# docker container env -> [--host 0.0.0.0] option add
 ```
