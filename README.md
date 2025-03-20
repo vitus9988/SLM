@@ -22,6 +22,7 @@ llama.cpp base
 |---|---|
 |kanana-nano-2.1b-instruct-Q4_K_M|7|
 |gemma-3-1b-it-Q4_K_M|13|
+|gemma-3-4b-it-Q4_K_M|4|
 |EXAONE-Deep-2.4B-Q4_K_M|6|
 
 
