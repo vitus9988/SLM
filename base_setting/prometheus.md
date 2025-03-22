@@ -1,4 +1,4 @@
-## prometheus & node_exporter install (20250322 기준)
+## prometheus & node_exporter install
 
 ### 1. prometheus tar file download && run
 
