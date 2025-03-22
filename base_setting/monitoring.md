@@ -99,11 +99,11 @@ http://localhost:3000
 (id:admin / pw: admin [basic account])
 
 1. [Connections] -> [Data source]
-2. connections prometheus server URL -> http://prometheus: prometheus port
+2. connections prometheus server URL -> http://prometheus:[prometheus port]
 3. Save & Test
 
 4. [Dashboards] -> [New] -> [Import]
-[grafana.com/dashboards](https://grafana.com/grafana/dashboards/) -> user Dashboard templates ID copy
+https://grafana.com/grafana/dashboards -> select user custome Dashboard templates ID copy
 5. Dashboard ID paste -> [Load] -> [select prometheus data source] -> [Import]
 ```
 
