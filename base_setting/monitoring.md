@@ -99,7 +99,7 @@ http://localhost:3000
 (id:admin / pw: admin [basic account])
 
 1. [Connections] -> [Data source]
-2. connections prometheus server URL -> http://prometheus:[prometheus port]
+2. connections prometheus server URL -> http://prometheus:prometheus port
 3. Save & Test
 
 4. [Dashboards] -> [New] -> [Import]
