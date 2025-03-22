@@ -35,7 +35,7 @@ scrape_configs:
       - targets: ["localhost:9100"] # node_exporter base port
 ```
 
-### a. prometheus + node_exporter docker container
+### 3a. prometheus + node_exporter docker container
 ```bash
 docker run -d -p [prometheus host port:container port] -p [node_exporter host port:container port]\
 -v [prometheus-*.linux-armv7 path]:/prometheus \
@@ -45,7 +45,7 @@ alpine \
 sh -c "/prometheus/prometheus --config.file=/prometheus/prometheus.yml & /node_exporter/node_exporter"
 ```
 
-### b. grafana docker container run
+### 3b. grafana docker container run
 ```bash
 docker run -d -p 3000:3000 grafana/grafana
 ```
