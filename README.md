@@ -1,6 +1,6 @@
-# sLLM project
+# SLM project
 
-라즈베리파이5(8G) 베이스의 sLLM 운용 정리 레포
+라즈베리파이5(8G) 베이스의 SLM 운용 정리 레포
 
 
 ## 모델 테스트
