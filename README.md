@@ -5,8 +5,6 @@
 
 ## 모델 테스트
 
-ollama base
-
 |Model|Tps|
 |---|---|
 |lama3.2:1b|8|
@@ -15,11 +13,6 @@ ollama base
 |gemma2:2b-instruct-q4_K_S|5|
 |qwen2.5:0.5b-instruct-q4_K_S|21|
 |qwen2.5:3b-instruct-q4_K_M|5|
-
-llama.cpp base
-
-|Model|Tps|
-|---|---|
 |kanana-nano-2.1b-instruct-Q4_K_M|7|
 |gemma-3-1b-it-Q4_K_M|13|
 |gemma-3-4b-it-Q4_K_M|4|
