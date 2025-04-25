@@ -17,6 +17,7 @@
 |gemma-3-1b-it-Q4_K_M|13|
 |gemma-3-4b-it-Q4_K_M|4|
 |EXAONE-Deep-2.4B-Q4_K_M|6|
+|HyperCLOVAX-SEED-Text-Instruct-1.5B-Q4_K_M|9|
 
 
 
