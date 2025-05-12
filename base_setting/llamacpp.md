@@ -45,10 +45,11 @@ cd llama.cpp/build/bin
 # docker container env -> [--host 0.0.0.0] option add
 
 4-3) Like OAI Call
+[model stream]
 cd llama.cpp/build/bin
 ./llama-server --jinja -fa -m [model path]
 
-'''python
+[python call]
 import request
 url = "http://localhost:8080/v1/chat/completions"
 payload = {
@@ -57,5 +58,5 @@ payload = {
 }
 resp = requests.post(url, json=payload)
 print(resp.json())
-```
+
 ```
