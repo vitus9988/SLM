@@ -43,4 +43,19 @@ cd llama.cpp/build/bin
 cd llama.cpp/build/bin
 ./llama-server -m [model path] --port [port]
 # docker container env -> [--host 0.0.0.0] option add
+
+4-3) Like OAI Call
+cd llama.cpp/build/bin
+./llama-server --jinja -fa -m [model path]
+
+'''python
+import request
+url = "http://localhost:8080/v1/chat/completions"
+payload = {
+    "model": "gpt-3.5-turbo",
+    "messages": [{"role": "user", "content": "Hello world"}]
+}
+resp = requests.post(url, json=payload)
+print(resp.json())
+```
 ```
