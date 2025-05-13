@@ -1,4 +1,4 @@
-## llama.cpp install (20250305 기준)
+## llama.cpp install
 
 ### 1. cmake install
 
