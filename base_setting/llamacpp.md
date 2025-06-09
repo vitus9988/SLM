@@ -21,6 +21,11 @@ cd llama.cpp
 cmake -B build
 cmake --build build --config Release
 pip3 install -r requirements.txt
+
+[vulkan env]
+cmake -B build -DGGML_VULKAN=ON
+cmake --build build --config Release
+pip3 install -r requirements.txt
 ```
 
 ### 3. model convert & quantize
