@@ -13,6 +13,17 @@ make
 make install
 ```
 
+### 1-1. vulkan install
+```bash
+arm vulkan sdk install
+https://github.com/jakoch/vulkan-sdk-arm (arm base ubuntu vulkan sdk)
+
+tar -xJvf vulkansdk-arm-*.tar.xz
+cd [vulkan sdk dir]
+source setup-env.sh
+./vulkan -j 1
+```
+
 ### 2. llama-cpp install
 ```bash
 git clone https://github.com/ggml-org/llama.cpp
