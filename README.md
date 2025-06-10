@@ -3,6 +3,15 @@
 라즈베리파이5(8G) 베이스의 SLM 운용 정리 레포
 
 
+## Setting & Install
+
+(llamacpp)[base_setting/llamacpp.md]
+
+
+
+
+
+
 ## 모델 테스트
 
 |Model|Tps|
