@@ -5,14 +5,12 @@
 
 ## Setting & Install
 
-(llamacpp)[base_setting/llamacpp.md]
+[llamacpp](base_setting/llamacpp.md)
+[ollama](base_setting/ollama.md)
+[grafana & prometheus](base_setting/monitoring.md)
 
 
-
-
-
-
-## 모델 테스트
+## Model Test
 
 |Model|Tps|
 |---|---|
