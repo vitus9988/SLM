@@ -6,6 +6,7 @@
 ## Setting & Install
 
 - [llamacpp](base_setting/llamacpp.md)
+  - [llamacpp-OpenBLAS Dockerfile](base_setting/docker/Dockerfile(llamacpp-OpenBLAS))
 - [ollama](base_setting/ollama.md)
 - [grafana & prometheus](base_setting/monitoring.md)
 
