@@ -1,0 +1,49 @@
+FROM ubuntu:22.04
+
+ENV DEBIAN_FRONTEND=noninteractive
+ARG CMAKE_VERSION=4.0.2
+
+RUN apt-get update && \
+    apt-get upgrade -y && \
+    apt-get install -y software-properties-common && \
+    add-apt-repository ppa:deadsnakes/ppa && \
+    apt-get update && \
+    apt-get install -y python3.11 python3-pip locales language-pack-ko vim curl tmux zip git wget htop libssl-dev build-essential pkg-config libopenblas-dev && \
+    curl https://getcroc.schollz.com/ | bash && \
+    locale-gen ko_KR.utf8 && \
+    dpkg-reconfigure locales && \
+    echo "export LANGUAGE=ko_KR.UTF-8" >> ~/.bashrc && \
+    echo "export LANG=ko_KR.UTF-8" >> ~/.bashrc && \
+    /bin/bash -c "source ~/.bashrc" && \
+    rm /usr/bin/python3 && \
+    ln -s /usr/bin/python3.11 /usr/bin/python3 && \
+    apt-get install -y python3.11-distutils && \
+    apt-get remove -y software-properties-common && \
+    apt-get autoremove -y && \
+    rm -rf /var/lib/apt/lists/*
+
+WORKDIR /home/workspace
+
+RUN wget https://github.com/Kitware/CMake/releases/download/v${CMAKE_VERSION}/cmake-${CMAKE_VERSION}.tar.gz && \
+    tar -xzf cmake-${CMAKE_VERSION}.tar.gz && \
+    cd cmake-${CMAKE_VERSION} && \
+    ./bootstrap && \
+    make -j"$(nproc)" && \
+    make install && \
+    cd .. && \
+    rm -rf cmake-${CMAKE_VERSION}*
+
+RUN git clone https://github.com/xianyi/OpenBLAS.git && \
+    cd OpenBLAS && \
+    make && \
+    make PREFIX=/usr/local/OpenBLAS install && \
+    echo "/usr/local/OpenBLAS/lib" | tee /etc/ld.so.conf.d/openblas.conf && \
+    ldconfig && \
+    cd .. && \
+    rm -rf OpenBLAS
+
+RUN git clone https://github.com/ggml-org/llama.cpp && \
+    cd llama.cpp && \
+    cmake -B build -DGGML_BLAS=ON -DGGML_BLAS_VENDOR=OpenBLAS -DLLAMA_CURL=OFF && \
+    cmake --build build --config Release && \
+    pip3 install -r requirements.txt
