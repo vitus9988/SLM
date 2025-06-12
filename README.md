@@ -6,7 +6,10 @@
 ## Setting & Install
 
 - [llamacpp](base_setting/llamacpp.md)
-  - [llamacpp-OpenBLAS Dockerfile](base_setting/docker/Dockerfile(llamacpp-OpenBLAS))
+  - llamacpp-OpenBLAS [Dockerfile](base_setting/docker/Dockerfile(llamacpp-OpenBLAS))
+    ```bash
+    docker pull vitus9988/llamacpp-openblas:latest
+    ```
 - [ollama](base_setting/ollama.md)
 - [grafana & prometheus](base_setting/monitoring.md)
 
