@@ -10,6 +10,10 @@
     ```bash
     docker pull vitus9988/llamacpp-openblas:latest
     ```
+  - llamacpp-Vulkan
+    ```bash
+    docker pull vitus9988/llamacpp-vulkan:v1
+    ```
 - [ollama](base_setting/ollama.md)
 - [grafana & prometheus](base_setting/monitoring.md)
 
