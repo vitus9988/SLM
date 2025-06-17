@@ -13,6 +13,10 @@ Raspberry Pi 5 base SLM Operation
     ```bash
     docker pull vitus9988/llamacpp-vulkan:v1
     ```
+- LiteRT-LM [Dockerfile](base_setting/docker/Dockerfile(LiteRT-LM))
+  ```bash
+  docker pull vitus9988/litert-lm:latest
+  ```
 - [ollama](base_setting/ollama.md)
 - [grafana & prometheus](base_setting/monitoring.md)
 
