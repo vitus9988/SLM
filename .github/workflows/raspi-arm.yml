@@ -1,45 +1,51 @@
-# .github/workflows/raspi-arm.yml
-name: build-and-push-arm64
+# .github/workflows/docker-arm64.yml
+name: build-arm64-image
+
 on:
   push:
     branches: [main]
   pull_request:
 
 env:
-  IMAGE_NAME: <DockerHubID>/slm
+  IMAGE_NAME: vitus9988/llamacpp-openblas
   PLATFORMS: linux/arm64
 
 jobs:
   build:
-    runs-on: ubuntu-22.04          # 러너 OS 고정
+    runs-on: ubuntu-22.04                # GitHub-hosted 22.04 러너
     steps:
-      - uses: actions/checkout@v4   # 코드 받아오기 :contentReference[oaicite:2]{index=2}
-      - uses: docker/setup-qemu-action@v3
-        with: { platforms: arm64 }  # QEMU arm64 등록 :contentReference[oaicite:3]{index=3}
-      - uses: docker/setup-buildx-action@v3 # Buildx 생성 :contentReference[oaicite:4]{index=4}
-      - uses: docker/login-action@v3        # Docker Hub 로그인 :contentReference[oaicite:5]{index=5}
+      # 1) 소스 체크아웃 --------------------------------------------------
+      - name: Checkout source
+        uses: actions/checkout@v4
+
+      # 2) QEMU & Buildx 초기화 ------------------------------------------
+      - name: Set up QEMU (arm64)
+        uses: docker/setup-qemu-action@v3
+        with:
+          platforms: arm64
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      # 3) Docker Hub 로그인 --------------------------------------------
+      - name: Login to Docker Hub
+        uses: docker/login-action@v3
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
-      - uses: docker/build-push-action@v5   # 빌드·푸시 :contentReference[oaicite:6]{index=6}
+
+      # 4) 빌드 & 푸시 ----------------------------------------------------
+      - name: Build and push arm64 image
+        uses: docker/build-push-action@v5
         with:
-          context: .
+          # Dockerfile이 들어 있는 폴더를 빌드 컨텍스트로 지정
+          context: ./SLM/base_setting/docker
+          # (파일 이름에 괄호가 있으므로) Dockerfile 경로를 명시
+          file: ./SLM/base_setting/docker/Dockerfile(llamacpp-OpenBLAS)
           platforms: ${{ env.PLATFORMS }}
           push: true
           tags: |
-            ${{ env.IMAGE_NAME }}:latest
+            ${{ env.IMAGE_NAME }}:test
             ${{ env.IMAGE_NAME }}:${{ github.sha }}
           build-args: |
             CMAKE_VERSION=4.0.2
-          cache-from: type=registry,ref=${{ env.IMAGE_NAME }}:cache
-          cache-to: type=registry,ref=${{ env.IMAGE_NAME }}:cache,mode=max :contentReference[oaicite:7]{index=7}
-      - uses: aquasecurity/trivy-action@latest
-        with:
-          image-ref: ${{ env.IMAGE_NAME }}:${{ github.sha }}
-          exit-code: 1
-      - uses: sigstore/cosign-installer@v3       # 서명(선택) :contentReference[oaicite:9]{index=9}
-        if: ${{ success() }}
-      - run: cosign sign --yes ${{ env.IMAGE_NAME }}:${{ github.sha }}
-        if: ${{ success() }}
-        env:
-          COSIGN_PASSWORD: ${{ secrets.COSIGN_PASSWORD }}
