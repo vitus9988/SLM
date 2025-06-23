@@ -1,6 +1,6 @@
-# .github/workflows/docker-arm64.yml
 name: build-arm64-image
 
+# main 브랜치 푸시·PR 때 동작
 on:
   push:
     branches: [main]
@@ -8,17 +8,17 @@ on:
 
 env:
   IMAGE_NAME: vitus9988/llamacpp-openblas
-  PLATFORMS: linux/arm64
+  PLATFORMS: linux/arm64             # 라즈베리파이 5 아키텍처
 
 jobs:
   build:
-    runs-on: ubuntu-22.04                # GitHub-hosted 22.04 러너
+    runs-on: ubuntu-22.04            # GitHub-hosted 22.04 러너
     steps:
-      # 1) 소스 체크아웃 --------------------------------------------------
+      # 1) 소스 체크아웃
       - name: Checkout source
         uses: actions/checkout@v4
 
-      # 2) QEMU & Buildx 초기화 ------------------------------------------
+      # 2) QEMU (ARM 에뮬) + Buildx 빌더 설정
       - name: Set up QEMU (arm64)
         uses: docker/setup-qemu-action@v3
         with:
@@ -27,21 +27,21 @@ jobs:
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
 
-      # 3) Docker Hub 로그인 --------------------------------------------
+      # 3) Docker Hub 로그인
       - name: Login to Docker Hub
         uses: docker/login-action@v3
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
-      # 4) 빌드 & 푸시 ----------------------------------------------------
+      # 4) Dockerfile 빌드 & 푸시
       - name: Build and push arm64 image
         uses: docker/build-push-action@v5
         with:
           # Dockerfile이 들어 있는 폴더를 빌드 컨텍스트로 지정
-          context: ./SLM/base_setting/docker
-          # (파일 이름에 괄호가 있으므로) Dockerfile 경로를 명시
-          file: ./SLM/base_setting/docker/Dockerfile(llamacpp-OpenBLAS)
+          context: ./base_setting/docker
+          # 괄호를 포함한 파일명을 작은따옴표로 감싸 명시
+          file: './base_setting/docker/Dockerfile(llamacpp-OpenBLAS)'
           platforms: ${{ env.PLATFORMS }}
           push: true
           tags: |
