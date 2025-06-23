@@ -33,7 +33,7 @@ jobs:
             CMAKE_VERSION=4.0.2
           cache-from: type=registry,ref=${{ env.IMAGE_NAME }}:cache
           cache-to: type=registry,ref=${{ env.IMAGE_NAME }}:cache,mode=max :contentReference[oaicite:7]{index=7}
-      - uses: aquasecurity/trivy-action@v0.20.0  # CVE 스캔 :contentReference[oaicite:8]{index=8}
+      - uses: aquasecurity/trivy-action@latest
         with:
           image-ref: ${{ env.IMAGE_NAME }}:${{ github.sha }}
           exit-code: 1
