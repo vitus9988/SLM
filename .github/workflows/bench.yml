@@ -1,0 +1,90 @@
+name: Llama-Gemma3-ARM-CI
+
+on:
+  push:
+    paths:
+      - ".github/workflows/**"
+  workflow_dispatch:
+
+env:
+  HF_HOME: ${{ github.workspace }}/.hf_cache
+  HF_TOKEN: ${{ secrets.HF_TOKEN }}                       # ← Hugging Face Personal Access Token
+  MODEL_REPO: ggml-org/gemma-3-1b-it-GGUF
+  MODEL_FILE: gemma-3-1b-it-Q4_K_M.gguf
+  TASKS: "kobest_boolq"
+
+jobs:
+  bench-arm64:
+    runs-on: ubuntu-22.04-arm                             # ARM64 호스티드 러너 라벨 :contentReference[oaicite:3]{index=3}
+    steps:
+      # 1) 소스 체크아웃
+      - uses: actions/checkout@v4
+
+      # 2) 시스템 패키지 업데이트 & 업그레이드 (비대화형) :contentReference[oaicite:4]{index=4}
+      - name: APT update & upgrade
+        run: |
+          sudo apt-get update -y
+          sudo DEBIAN_FRONTEND=noninteractive apt-get upgrade -yq
+
+      # 3) Python 3.11 설정 :contentReference[oaicite:5]{index=5}
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      # 4) llama-cpp-python[server] 빌드·설치 (OpenBLAS) :contentReference[oaicite:6]{index=6}
+      - name: Install llama-cpp-python (server extra)
+        env:
+          CMAKE_ARGS: "-DGGML_BLAS=ON -DGGML_BLAS_VENDOR=OpenBLAS"
+        run: |
+          python -m pip install --upgrade pip
+          pip install 'llama-cpp-python[server]'
+
+      # 5) lm-evaluation-harness 소스 설치 :contentReference[oaicite:7]{index=7}
+      - name: Clone & install lm-evaluation-harness
+        run: |
+          git clone --depth 1 https://github.com/EleutherAI/lm-evaluation-harness
+          cd lm-evaluation-harness
+          pip install -e .
+
+      # 6) Gemma GGUF 모델 다운로드 (토큰 인증) :contentReference[oaicite:8]{index=8}
+      - name: Download Gemma GGUF
+        run: |
+          huggingface-cli login --token "$HF_TOKEN"
+          huggingface-cli download "$MODEL_REPO" \
+            --include "$MODEL_FILE" \
+            --local-dir "${{ github.workspace }}/models" \
+            --local-dir-use-symlinks False
+          echo "MODEL_PATH=${{ github.workspace }}/models/$MODEL_FILE" >> $GITHUB_ENV
+
+      # 7) llama-cpp 서버 기동 :contentReference[oaicite:9]{index=9}
+      - name: Launch llama-cpp server
+        run: |
+          python -m llama_cpp.server --model "$MODEL_PATH" --n_threads $(nproc) --port 8000 &
+          echo "SERVER_PID=$!" >> $GITHUB_ENV
+          sleep 15    # 서버 초기화 대기
+        shell: bash
+
+      # 8) lm-evaluation-harness 벤치마크 실행
+      - name: Run evaluation
+        run: |
+          lm_eval \
+            --model gguf \
+            --model_args base_url=http://localhost:8000 \
+            --seed 42 \
+            --num_fewshot 0 \
+            --tasks $TASKS \
+            --device cpu \
+            --batch_size auto \
+            --output_path results.json
+
+      # 9) 서버 종료
+      - name: Stop llama-cpp server
+        if: always()
+        run: kill $SERVER_PID || true
+
+      # 10) 결과 업로드 (아티팩트) :contentReference[oaicite:10]{index=10}
+      - name: Upload results
+        uses: actions/upload-artifact@v4
+        with:
+          name: gemma-3-1b-it-0shot-results
+          path: results.json
