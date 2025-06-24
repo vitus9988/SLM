@@ -34,7 +34,11 @@ jobs:
         git clone --depth 1 https://github.com/EleutherAI/lm-evaluation-harness.git
         pip install -e ./lm-evaluation-harness
         pip install --quiet huggingface_hub
-
+    
+    - name: Hugging Face CLI login
+      run: |
+        huggingface-cli login --token "$HF_TOKEN" --silent
+        huggingface-cli whoami
 
     - name: Download Gemma model
       run: |
@@ -43,8 +47,7 @@ jobs:
           gemma-3-1b-it-Q4_K_M.gguf \
           --repo-type model \
           --local-dir ./models \
-          --local-dir-use-symlinks False \
-          --token "$HF_TOKEN"
+          --local-dir-use-symlinks False
         ls -lh models
 
 
