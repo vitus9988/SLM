@@ -37,7 +37,7 @@ jobs:
     
     - name: Hugging Face CLI login
       run: |
-        huggingface-cli login --token "$HF_TOKEN" --silent
+        huggingface-cli login --token "$HF_TOKEN" --add-to-git-credential
         huggingface-cli whoami
 
     - name: Download Gemma model
