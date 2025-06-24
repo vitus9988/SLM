@@ -33,14 +33,13 @@ jobs:
         pip install 'llama-cpp-python[server]'
         git clone --depth 1 https://github.com/EleutherAI/lm-evaluation-harness.git
         pip install -e ./lm-evaluation-harness
-        pip install --quiet huggingface_hub
+        pip install --quiet "huggingface_hub[cli]"
   
     - name: Download Gemma model
       run: |
         mkdir -p models
         huggingface-cli download ggml-org/gemma-3-1b-it-GGUF \
           gemma-3-1b-it-Q4_K_M.gguf \
-          --repo-type model \
           --local-dir ./models \
           --local-dir-use-symlinks False
         ls -lh models
