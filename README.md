@@ -5,21 +5,13 @@ Raspberry Pi 5 base SLM Operation
 ## Setting & Install
 
 - [llamacpp](base_setting/llamacpp.md)
-  - llamacpp-OpenBLAS [Dockerfile](base_setting/docker/Dockerfile(llamacpp-OpenBLAS))
+  - llamacpp-OpenBLAS [Dockerfile](base_setting/docker/Dockerfile(llamacpp-OpenBLAS-Lite))
     ```bash
     docker pull vitus9988/llamacpp-openblas:latest
+    docker run --rm -v $(pwd)/models:/models vitus9988/llamacpp-openblas:latest llama-cli -m /models/gemma-3n-E2B-it-Q4_K_M.gguf -p "세계에서 가장 높은산은?"
     ```
-  - llamacpp-Vulkan
-    ```bash
-    docker pull vitus9988/llamacpp-vulkan:v1
-    ```
-- LiteRT-LM [Dockerfile](base_setting/docker/Dockerfile(LiteRT-LM))
-  ```bash
-  docker pull vitus9988/litert-lm:latest
-  ```
 - [ollama](base_setting/ollama.md)
 - [grafana & prometheus](base_setting/monitoring.md)
-
 
 ## Model Test
 
