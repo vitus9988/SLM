@@ -1,0 +1,41 @@
+name: llamacpp_openblas_lite
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-22.04
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - uses: docker/setup-qemu-action@v3
+      with:
+        platforms: arm64
+    - uses: docker/setup-buildx-action@v3
+
+    - uses: docker/login-action@v3
+      with:
+        username: ${{ secrets.DOCKERHUB_USERNAME }}
+        password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+    - name: Extract metadata
+      id: meta
+      uses: docker/metadata-action@v5
+      with:
+        images: ${{ secrets.DOCKERHUB_USERNAME }}/llamacpp-openblas-lite
+        tags: |
+          type=raw,value=latest
+          type=sha,format=short
+
+    - uses: docker/build-push-action@v5
+      with:
+        context: .
+        file: ./base_setting/docker/Dockerfile(llamacpp-OpenBLAS-Lite)
+        platforms: linux/arm64
+        push: true
+        tags: ${{ steps.meta.outputs.tags }}
+        labels: ${{ steps.meta.outputs.labels }}
+        cache-from: type=registry,ref=${{ secrets.DOCKERHUB_USERNAME }}/llama-arm64:buildcache
+        cache-to:   type=registry,ref=${{ secrets.DOCKERHUB_USERNAME }}/llama-arm64:buildcache,mode=max
