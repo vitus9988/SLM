@@ -1,0 +1,45 @@
+FROM ubuntu:22.04 AS builder
+ENV DEBIAN_FRONTEND=noninteractive \
+    CMAKE_VERSION=4.0.2 \
+    OPENBLAS_VERSION=0.3.30
+
+RUN apt-get update && apt-get install -y --no-install-recommends \
+        build-essential gfortran git wget ca-certificates pkg-config \
+        python3.11 python3.11-distutils python3-pip \
+    && rm -rf /var/lib/apt/lists/*
+
+RUN wget -qO- https://github.com/Kitware/CMake/releases/download/v${CMAKE_VERSION}/cmake-${CMAKE_VERSION}-linux-aarch64.tar.gz \
+    | tar --strip-components=1 -xz -C /usr/local
+
+RUN git clone --branch v${OPENBLAS_VERSION} --depth 1 https://github.com/xianyi/OpenBLAS.git && \
+    make -C OpenBLAS -j$(nproc) USE_OPENMP=1 && \
+    make -C OpenBLAS PREFIX=/usr/local install && \
+    strip --strip-unneeded /usr/local/lib/libopenblas*.so* && \
+    echo "/usr/local/lib" > /etc/ld.so.conf.d/openblas.conf && ldconfig && \
+    rm -rf OpenBLAS
+
+WORKDIR /home/workspace
+RUN git clone --depth 1 https://github.com/ggml-org/llama.cpp && \
+    cd llama.cpp && \
+    cmake -B build \
+    -DGGML_BLAS=ON -DGGML_BLAS_VENDOR=OpenBLAS -DLLAMA_CURL=OFF && \
+    cmake --build build --config Release
+
+FROM ubuntu:22.04
+ENV LANG=C.UTF-8 \
+    LD_LIBRARY_PATH=/usr/local/lib:/usr/local/bin/llama.cpp/build/bin \
+    PATH="/usr/local/bin/llama.cpp/build/bin:${PATH}"
+
+RUN apt-get update && apt-get install -y --no-install-recommends \
+        python3.11 libgomp1 libgfortran5 \
+    && rm -rf /var/lib/apt/lists/*
+
+COPY --from=builder /usr/local/lib/libopenblas*.so* /usr/local/lib/
+RUN ldconfig
+
+COPY --from=builder /home/workspace/llama.cpp /usr/local/bin/llama.cpp
+
+WORKDIR /models
+EXPOSE 8000
+
+CMD ["bash"]
