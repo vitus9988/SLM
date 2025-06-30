@@ -7,7 +7,7 @@ Raspberry Pi 5 base SLM Operation
 ## Quick setting / start
 
 - [llamacpp](base_setting/llamacpp.md)
-  - ![Build Status](https://github.com/vitus9988/SLM/actions/workflows/llamacpp_openblas_lite.yml/badge.svg)
+  - ![Build Status](https://github.com/vitus9988/SLM/actions/workflows/build-llamacpp-arm64.yml/badge.svg)
   - llamacpp-OpenBLAS [Dockerfile](base_setting/docker/Dockerfile(llamacpp-OpenBLAS-Lite))
     
     ```sh
