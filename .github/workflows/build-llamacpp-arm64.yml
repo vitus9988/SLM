@@ -5,8 +5,7 @@ on:
 
 jobs:
   build-and-push:
-    # Self-hosted ARM64 러너 사용 (QEMU 에뮬레이션 불필요)
-    runs-on: [self-hosted, raspberry-pi, arm64]
+    runs-on: [self-hosted, Linux, ARM64]
     
     steps:
     - name: Checkout code
