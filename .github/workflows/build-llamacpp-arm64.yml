@@ -1,4 +1,4 @@
-name: llama.cpp OpenBLAS-Lite by Self-Hosted
+name: llama.cpp docker build by Self-Hosted
 
 on:
   workflow_dispatch:
