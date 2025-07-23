@@ -38,6 +38,6 @@ Raspberry Pi 5 base SLM Operation
 |EXAONE-Deep-2.4B-Q4_K_M|6|
 |HyperCLOVAX-SEED-Text-Instruct-1.5B-Q4_K_M|9|
 |kanana-nano-2.1b-instruct-Q4_K_M|7|
-
+|Midm-2.0-Mini-Instruct-Q4_K_M|7|
 
 
