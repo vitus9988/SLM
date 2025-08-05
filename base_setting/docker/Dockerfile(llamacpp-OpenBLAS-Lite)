@@ -1,4 +1,4 @@
-FROM ubuntu:22.04 AS builder
+ROM ubuntu:22.04 AS builder
 ENV DEBIAN_FRONTEND=noninteractive \
     CMAKE_VERSION=4.0.2 \
     OPENBLAS_VERSION=0.3.30
@@ -39,7 +39,7 @@ RUN ldconfig
 
 COPY --from=builder /home/workspace/llama.cpp /usr/local/bin/llama.cpp
 
-WORKDIR /models
+WORKDIR /slm
 EXPOSE 8000
 
 CMD ["bash"]
