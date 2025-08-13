@@ -1,30 +1,54 @@
+FROM ubuntu:22.04 AS builder
+ENV DEBIAN_FRONTEND=noninteractive \
+    CMAKE_VERSION=4.1.0 \
+    OPENBLAS_VERSION=0.3.30
+
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    build-essential gfortran git wget ca-certificates pkg-config \
+    python3.11 python3.11-distutils python3-pip \
+    && rm -rf /var/lib/apt/lists/* && \
+    rm /usr/bin/python3 && \
+    ln -s /usr/bin/python3.11 /usr/bin/python3
+
+RUN wget -qO- https://github.com/Kitware/CMake/releases/download/v${CMAKE_VERSION}/cmake-${CMAKE_VERSION}-linux-aarch64.tar.gz \
+    | tar --strip-components=1 -xz -C /usr/local
+
+RUN git clone --branch v${OPENBLAS_VERSION} --depth 1 https://github.com/xianyi/OpenBLAS.git && \
+    make -C OpenBLAS -j$(nproc) USE_OPENMP=1 && \
+    make -C OpenBLAS PREFIX=/usr/local install && \
+    strip --strip-unneeded /usr/local/lib/libopenblas*.so* && \
+    echo "/usr/local/lib" > /etc/ld.so.conf.d/openblas.conf && ldconfig && \
+    rm -rf OpenBLAS
+
+RUN pip3 install ninja && \
+    CMAKE_ARGS="-DGGML_BLAS=ON -DGGML_BLAS_VENDOR=OpenBLAS" \
+    pip3 install 'llama-cpp-python[server]'
+
+
 FROM ubuntu:22.04
+ENV LANG=C.UTF-8 \
+    LD_LIBRARY_PATH=/usr/local/lib \
+    PATH="/usr/local/bin:${PATH}"
 
-ENV DEBIAN_FRONTEND=noninteractive
-ENV CMAKE_ARGS="-DGGML_BLAS=ON -DGGML_BLAS_VENDOR=OpenBLAS"
-
-RUN apt-get update && \
-    apt-get upgrade -y && \
-    apt-get install -y software-properties-common && \
-    add-apt-repository ppa:deadsnakes/ppa && \
-    apt-get update && \
-    apt-get install -y \
-        python3.11 python3-pip locales language-pack-ko vim curl tmux zip git wget htop \
-        libopenblas-dev ninja-build build-essential pkg-config && \
-    curl https://getcroc.schollz.com/ | bash && \
-    locale-gen ko_KR.utf8 && \
-    dpkg-reconfigure locales && \
-    echo "export LANGUAGE=ko_KR.UTF-8" >> ~/.bashrc && \
-    echo "export LANG=ko_KR.UTF-8" >> ~/.bashrc && \
-    /bin/bash -c "source ~/.bashrc" && \
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    git python3.11 python3.11-distutils python3-pip libgfortran5 libgomp1 \
+    tmux htop vim \
+    && rm -rf /var/lib/apt/lists/* && \
     rm /usr/bin/python3 && \
     ln -s /usr/bin/python3.11 /usr/bin/python3 && \
-    apt-get install -y python3.11-distutils && \
-    apt-get remove -y software-properties-common && \
-    apt-get autoremove -y && \
-    rm -rf /var/lib/apt/lists/*
+    python3 -m pip install --upgrade pip setuptools wheel
+
+COPY --from=builder /usr/local/lib/libopenblas*.so* /usr/local/lib/
+RUN ldconfig
+
+COPY --from=builder /usr/local/bin/ /usr/local/bin/
+COPY --from=builder /usr/local/lib/python3.11/dist-packages \
+                    /usr/local/lib/python3.11/dist-packages
+
+RUN mkdir -p /slm
 
 WORKDIR /home/workspace
 
-RUN pip3 install llama-cpp-python \
-  --extra-index-url https://abetlen.github.io/llama-cpp-python/whl/cpu
+RUN git clone --depth 1 https://github.com/EleutherAI/lm-evaluation-harness && \
+    cd lm-evaluation-harness && \
+    pip3 install -e .
