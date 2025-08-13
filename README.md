@@ -18,7 +18,8 @@ Raspberry Pi 5 base SLM Operation
     vitus9988/llamacpp-openblas:latest llama-cli \
     -m /models/gemma-3n-E2B-it-Q4_K_M.gguf -p "세계에서 가장 높은산은?"
     ```
-    
+- [benchmark](base_setting/benchmark.md)
+  - llamacpp python server & lm-eval [Dockerfile](base_setting/docker/Dockerfile(llama-cpp-python))
 - [ollama](base_setting/ollama.md)
 - [grafana & prometheus](base_setting/monitoring.md)
 
