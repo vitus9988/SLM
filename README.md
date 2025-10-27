@@ -35,7 +35,8 @@ Raspberry Pi 5 base SLM Operation
 |gemma2:2b-instruct-q4_K_S|5|
 |gemma-3-1b-it-Q4_K_M|13|
 |gemma-3-4b-it-Q4_K_M|4|
-|gemma-3n-E2B-it-Q4_K_M|4|
+|gemma-3n-E2B-it-Q4_K_M|6|
+|gemma-3n-E4B-it-Q4_K_M|4|
 |EXAONE-Deep-2.4B-Q4_K_M|6|
 |HyperCLOVAX-SEED-Text-Instruct-1.5B-Q4_K_M|9|
 |kanana-nano-2.1b-instruct-Q4_K_M|7|
