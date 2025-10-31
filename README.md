@@ -8,7 +8,7 @@ Raspberry Pi 5 base SLM Operation
 ## Quick setting / start
 
 - [llamacpp](base_setting/llamacpp.md)
-  - llamacpp-OpenBLAS [Dockerfile](base_setting/docker/Dockerfile(llamacpp-OpenBLAS-Lite))
+  - llamacpp-OpenBLAS [Dockerfile](base_setting/docker/Dockerfile(llamacpp-openblas-lite))
     ```sh
     # docker image pull
     docker pull vitus9988/llamacpp-openblas-lite-arm64:latest
