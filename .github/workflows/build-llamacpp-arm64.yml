@@ -22,6 +22,10 @@ jobs:
           version=$(curl -s https://api.github.com/repos/OpenMathLib/OpenBLAS/releases/latest \
                    | jq -r .tag_name | sed 's/^v//')
           echo "version=$version" >> $GITHUB_OUTPUT
+      - name: Print get latest versions
+        run: |
+          echo "CMake version: ${{ steps.cmake.outputs.version }}"
+          echo "OpenBLAS version: ${{ steps.openblas.outputs.version }}"
 
   build-and-push:
     needs: get-versions
