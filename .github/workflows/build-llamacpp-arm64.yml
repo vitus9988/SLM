@@ -13,15 +13,24 @@ jobs:
       - name: Get latest CMake
         id: cmake
         run: |
-          version=$(curl -s https://api.github.com/repos/Kitware/CMake/releases/latest \
-                   | jq -r .tag_name | sed 's/^v//')
-          echo "version=$version" >> $GITHUB_OUTPUT
+          set -euo pipefail
+          ver=$(curl -fsSL https://api.github.com/repos/Kitware/CMake/releases/latest \
+                | jq -r .tag_name | sed 's/^v//')
+          # 공백/개행/CR 제거
+          ver=$(printf '%s' "$ver" | tr -d '\r\n[:space:]')
+          [ -n "$ver" ] || { echo "No CMake version"; exit 1; }
+          echo "version=$ver" >> "$GITHUB_OUTPUT"
+
       - name: Get latest OpenBLAS
         id: openblas
         run: |
-          version=$(curl -s https://api.github.com/repos/OpenMathLib/OpenBLAS/releases/latest \
-                   | jq -r .tag_name | sed 's/^v//')
-          echo "version=$version" >> $GITHUB_OUTPUT
+          set -euo pipefail
+          ver=$(curl -fsSL https://api.github.com/repos/xianyi/OpenBLAS/releases/latest \
+                | jq -r .tag_name | sed 's/^v//')
+          ver=$(printf '%s' "$ver" | tr -d '\r\n[:space:]')
+          [ -n "$ver" ] || { echo "No OpenBLAS version"; exit 1; }
+          echo "version=$ver" >> "$GITHUB_OUTPUT"
+          
       - name: Print get latest versions
         run: |
           echo "CMake version: ${{ steps.cmake.outputs.version }}"
