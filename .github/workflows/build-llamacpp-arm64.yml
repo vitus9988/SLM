@@ -24,7 +24,7 @@ jobs:
       id: meta
       uses: docker/metadata-action@v5
       with:
-        images: ${{ secrets.DOCKERHUB_USERNAME }}/llamacpp-openblas-lite
+        images: ${{ secrets.DOCKERHUB_USERNAME }}/llamacpp-openblas-lite-arm64
         tags: |
           type=raw,value=action_test
         labels: |
@@ -36,7 +36,7 @@ jobs:
       uses: docker/build-push-action@v5
       with:
         context: .
-        file: ./base_setting/docker/Dockerfile(llamacpp-OpenBLAS-Lite)
+        file: ./base_setting/docker/Dockerfile(llamacpp-openblas-lite)
         
         platforms: linux/arm64
         push: true
