@@ -11,11 +11,11 @@ Raspberry Pi 5 base SLM Operation
   - llamacpp-OpenBLAS [Dockerfile](base_setting/docker/Dockerfile(llamacpp-OpenBLAS-Lite))
     ```sh
     # docker image pull
-    docker pull vitus9988/llamacpp-openblas:latest
+    docker pull vitus9988/llamacpp-openblas-lite-arm64:latest
 
     # llama-cli local model
     docker run --rm -v $(pwd)/models:/models \
-    vitus9988/llamacpp-openblas:latest llama-cli \
+    vitus9988/llamacpp-openblas-lite-arm64:latest llama-cli \
     -m /models/gemma-3n-E2B-it-Q4_K_M.gguf -p "세계에서 가장 높은산은?"
     ```
 - [benchmark](base_setting/benchmark.md)
