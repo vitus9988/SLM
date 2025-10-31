@@ -4,6 +4,25 @@ on:
   workflow_dispatch:
 
 jobs:
+  get-versions:
+    runs-on: ubuntu-latest
+    outputs:
+      cmake_ver: ${{ steps.cmake.outputs.version }}
+      openblas_ver: ${{ steps.openblas.outputs.version }}
+    steps:
+      - name: Get latest CMake
+        id: cmake
+        run: |
+          version=$(curl -s https://api.github.com/repos/Kitware/CMake/releases/latest \
+                   | jq -r .tag_name | sed 's/^v//')
+          echo "version=$version" >> $GITHUB_OUTPUT
+      - name: Get latest OpenBLAS
+        id: openblas
+        run: |
+          version=$(curl -s https://api.github.com/repos/OpenMathLib/OpenBLAS/releases/latest \
+                   | jq -r .tag_name | sed 's/^v//')
+          echo "version=$version" >> $GITHUB_OUTPUT
+
   build-and-push:
     runs-on: [self-hosted, Linux, ARM64]
     
