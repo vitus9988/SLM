@@ -16,7 +16,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 RUN wget -qO- https://github.com/Kitware/CMake/releases/download/v${CMAKE_VERSION}/cmake-${CMAKE_VERSION}-linux-aarch64.tar.gz \
     | tar --strip-components=1 -xz -C /usr/local
 
-RUN git clone --branch v${OPENBLAS_VERSION} --depth 1 https://github.com/xianyi/OpenBLAS.git && \
+RUN git clone --branch v${OPENBLAS_VERSION} --depth 1 https://github.com/OpenMathLib/OpenBLAS && \
     make -C OpenBLAS -j$(nproc) USE_OPENMP=1 && \
     make -C OpenBLAS PREFIX=/usr/local install && \
     strip --strip-unneeded /usr/local/lib/libopenblas*.so* && \
