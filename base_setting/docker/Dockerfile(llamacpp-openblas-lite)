@@ -1,6 +1,6 @@
-ROM ubuntu:22.04 AS builder
+FROM ubuntu:22.04 AS builder
 ENV DEBIAN_FRONTEND=noninteractive \
-    CMAKE_VERSION=4.0.2 \
+    CMAKE_VERSION=4.1.2 \
     OPENBLAS_VERSION=0.3.30
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
@@ -38,8 +38,5 @@ COPY --from=builder /usr/local/lib/libopenblas*.so* /usr/local/lib/
 RUN ldconfig
 
 COPY --from=builder /home/workspace/llama.cpp /usr/local/bin/llama.cpp
-
-WORKDIR /slm
-EXPOSE 8000
 
 CMD ["bash"]
