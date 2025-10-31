@@ -26,7 +26,7 @@ jobs:
       with:
         images: ${{ secrets.DOCKERHUB_USERNAME }}/llamacpp-openblas-lite-arm64
         tags: |
-          type=raw,value=action_test
+          type=raw,value=latest
         labels: |
           org.opencontainers.image.architecture=arm64
           org.opencontainers.image.platform=linux/arm64
