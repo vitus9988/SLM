@@ -2,6 +2,8 @@ ARG CMAKE_VERSION
 ARG OPENBLAS_VERSION
 
 FROM ubuntu:22.04 AS builder
+ARG CMAKE_VERSION
+ARG OPENBLAS_VERSION
 ENV DEBIAN_FRONTEND=noninteractive
 
 LABEL org.opencontainers.image.version.cmake="${CMAKE_VERSION}"
