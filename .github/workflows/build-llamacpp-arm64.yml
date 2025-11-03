@@ -5,6 +5,9 @@ name: llama.cpp docker build by Self-Hosted
 
 on:
   workflow_dispatch:
+  push:                # main에 푸시될 때 자동 실행
+    branches:
+      - main
 
 jobs:
   get-versions:
