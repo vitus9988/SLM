@@ -1,3 +1,6 @@
+permissions:
+  contents: write
+  
 name: llama.cpp docker build by Self-Hosted
 
 on:
@@ -82,3 +85,36 @@ jobs:
             OPENBLAS_VERSION=${{ needs.get-versions.outputs.openblas_ver }}
           cache-from: type=registry,ref=${{ secrets.DOCKERHUB_USERNAME }}/llamacpp-arm64:buildcache
           cache-to: type=registry,ref=${{ secrets.DOCKERHUB_USERNAME }}/llamacpp-arm64:buildcache,mode=max
+      
+      - name: Update badges (CMake/OpenBLAS)
+        run: |
+          set -euo pipefail
+          mkdir -p badges
+
+          cat > badges/cmake.json <<EOF
+          {
+            "schemaVersion": 1,
+            "label": "CMake",
+            "message": "${{ needs.get-versions.outputs.cmake_ver }}",
+            "color": "blue",
+            "cacheSeconds": 300
+          }
+          EOF
+
+          cat > badges/openblas.json <<EOF
+          {
+            "schemaVersion": 1,
+            "label": "OpenBLAS",
+            "message": "${{ needs.get-versions.outputs.openblas_ver }}",
+            "color": "informational",
+            "cacheSeconds": 300
+          }
+          EOF
+
+          if ! git diff --quiet -- badges; then
+            git config user.name "github-actions[bot]"
+            git config user.email "github-actions[bot]@users.noreply.github.com"
+            git add badges/*.json
+            git commit -m "chore(badges): update CMake/OpenBLAS versions [skip ci]"
+            git push
+          fi
