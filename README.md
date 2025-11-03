@@ -3,8 +3,8 @@
 Raspberry Pi 5 base SLM Operation
 
 ![Build Status](https://github.com/vitus9988/SLM/actions/workflows/build-llamacpp-arm64.yml/badge.svg)
-![CMake](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/vitus9988/SLM/main/badges/cmake.json&cacheSeconds=60)
-![OpenBLAS](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/vitus9988/SLM/main/badges/openblas.json&cacheSeconds=60)
+![CMake](https://img.shields.io/endpoint?url=https%3A%2F%2Fraw.githubusercontent.com%2Fvitus9988%2FSLM%2Fmain%2Fbadges%2Fcmake.json&cacheSeconds=60)
+![OpenBLAS](https://img.shields.io/endpoint?url=https%3A%2F%2Fraw.githubusercontent.com%2Fvitus9988%2FSLM%2Fmain%2Fbadges%2Fopenblas.json&cacheSeconds=60)
 
 ----
 
