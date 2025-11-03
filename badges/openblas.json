@@ -1,0 +1,7 @@
+{
+  "schemaVersion": 1,
+  "label": "OpenBLAS",
+  "message": "0.3.30",
+  "color": "informational",
+  "cacheSeconds": 60
+}
