@@ -3,10 +3,8 @@
 Raspberry Pi 5 base SLM Operation
 
 ![Build Status](https://github.com/vitus9988/SLM/actions/workflows/build-llamacpp-arm64.yml/badge.svg)
-
-- CMake: <!--CMAKE_VER-->
-- OpenBLAS: <!--OPENBLAS_VER-->
-- Tag: `latest` (linux/arm64)
+![CMake](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/vitus9988/SLM/main/badges/cmake.json)
+![OpenBLAS](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/vitus9988/SLM/main/badges/openblas.json)
 ----
 
 ## Quick setting / start
