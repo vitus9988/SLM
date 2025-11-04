@@ -46,4 +46,5 @@ RUN ldconfig
 
 COPY --from=builder /home/workspace/llama.cpp /usr/local/bin/llama.cpp
 
+EXPOSE 8080
 CMD ["bash"]
