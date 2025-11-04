@@ -6,8 +6,8 @@ name: llama.cpp docker build by Self-Hosted
 on:
   workflow_dispatch:
   push:
-    branches:
-      - main
+    paths:
+      - 'base_setting/docker/Dockerfile(llamacpp-openblas-lite)'
 
 jobs:
   get-versions:
